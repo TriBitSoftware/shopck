@@ -1,0 +1,11 @@
+{
+  "name": "shopck",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:TriBitSoftware/shopck.git",
+  "author": "Fareed Ahmad <fareedahmad@cmail.carleton.ca>",
+  "license": "MIT",
+  "scripts": {
+    "start": "cd shopck-web && yarn install && yarn start"
+  }
+}
