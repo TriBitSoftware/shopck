@@ -1,6 +1,7 @@
-import { Box, Checkbox, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
+import { DropzoneArea } from 'material-ui-dropzone';
 
 interface BusinessSignUpFormProps {
 
@@ -8,16 +9,73 @@ interface BusinessSignUpFormProps {
 
 const useStyles = makeStyles({
     root: {
+        marginBottom: 64,
+        paddingTop: 64,
+        display: "flex",
+        flexDirection: "column",
+        color: "#2C3345",
+    },
+    formTitle: {
+        fontWeight: "bold",
+        fontSize: 32,
+        marginBottom: 16,
+    },
 
+    titleSectionDivider: {
+        marginTop: 32,
+    },
+
+    sectionDivider: {
+        marginTop: 32,
+        marginBottom: 32,
     },
 
     heading: {
-        marginTop: 8
+        fontWeight: "bold",
+        fontSize: 24,
+        marginTop: 64,
+    },
+
+    subheading: {
+        fontSize: 20,
+        marginTop: 8,
+    },
+
+    inputLabel: {
+        fontWeight: 500,
+        fontSize: 20,
+        margin: 8,
+    },
+
+    formLabelLeft: {
+        fontWeight: 500,
+        fontSize: 20,
+        margin: 8,
+        flex: 0.5,
     },
 
     inputField: {
-        margin: 8
+        margin: 8,
+        flex: 1,
+        flexGrow: 1,
     },
+
+    inputBlock: {
+        marginTop: 8,
+        marginBottom: 8,
+    },
+
+    button: {
+        backgroundColor: "#000",
+        color: "#FFF",
+        paddingTop: "15px",
+        paddingBottom: "15px",
+        paddingRight: "32px",
+        paddingLeft: "32px",
+        margin: 32,
+        alignSelf: "center"
+    },
+
     formControl: {
         margin: 8
     }
@@ -26,99 +84,176 @@ const useStyles = makeStyles({
 
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
+
+
     return (
-        <Box display="flex" flexDirection="column">
-            <Typography variant="h6" className={classes.heading}>
-                Personal Information
+        <Container maxWidth="md" className={classes.root}>
+
+            {/* Form Heading */}
+            <Typography className={classes.formTitle}>Get listed on ShopCK</Typography>
+            <Typography className={classes.subheading}>For businesses located in the Municipality of Chatham-Kent</Typography>
+            <Divider orientation="horizontal" variant="fullWidth" className={classes.titleSectionDivider} />
+
+            {/* Part 1 - Contant Info */}
+            <Typography className={classes.heading}>
+                Part 1 - Contact Info
+            </Typography>
+            <Typography className={classes.subheading}>This info will not be displayed in the directory, but will be for our records. </Typography>
+            <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
+
+            <Typography className={classes.inputLabel}>
+                Contact Name
             </Typography>
 
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Full Name"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Email Address"
-                placeholder="@example.com"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Phone Number"
-                placeholder="123-456-7890"
-            />
+            <Box width="100%" display="flex" flexDirection="row" className={classes.inputBlock}>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    label="First Name"
+                    required
+                />
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    label="Last Name"
+                    required
+                />
+            </Box>
 
-            <Typography variant="h6" className={classes.heading}>
-                Business Information
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Email Address
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Phone Number
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+
+            {/* Part 2 - Business Info */}
+            <Typography className={classes.heading}>
+                Part 2 - Business Info
             </Typography>
+            <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
+            <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
 
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Business Name"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Business Email"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Phone"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Address"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Postal Code"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="City"
-                placeholder="Joe Smith"
-            />
 
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Facebook"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Twitter"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Instagram"
-                placeholder="Joe Smith"
-            />
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                label="Social Media"
-                placeholder="Joe Smith"
-            />
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Business Name
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
 
-            <FormControl component="fieldset" className={classes.formControl}>
-                <FormLabel component="legend">Business Categorie(s)</FormLabel>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Business Phone
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Business Address
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Business Email
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Business Website
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Facebook
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Twitter
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Instagram
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
+                <Typography className={classes.formLabelLeft}>
+                    Other Social Media
+                 </Typography>
+                <TextField
+                    className={classes.inputField}
+                    variant="outlined"
+                    required
+                />
+            </Box>
+
+            <Typography className={classes.formLabelLeft}>
+                What categories should your business be listed in?
+            </Typography>
+            <FormControl component="fieldset" className={classes.formControl} required>
+                <FormLabel component="legend">Select a maximum of two categories</FormLabel>
                 <Grid container>
                     <Grid item xs={6}>
                         <FormControlLabel
@@ -263,10 +398,45 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     </Grid>
                 </Grid>
             </FormControl>
-            <Typography variant="body1" className={classes.heading}>
-                Please upload your logo and 3 additional photos of your business(optional):
+
+            <Typography className={classes.formLabelLeft}>
+                Business Description (what you would like to say within your directory listing about your business).
+                 </Typography>
+            <TextField
+                className={classes.inputField}
+                variant="outlined"
+                placeholder="Type here..."
+                multiline
+                required
+                rows={8}
+            />
+
+            <Typography variant="body1" className={classes.formLabelLeft}>
+                Please upload your logo and 3 additional photos of your business (optional):
             </Typography>
-          
-        </Box>
+            <DropzoneArea
+                acceptedFiles={['image/*']}
+                dropzoneText={"Drag and drop an image here or click"}
+                filesLimit={4}
+                maxFileSize={30000000}
+            // onChange={(files) => console.log('Files:', files)}
+            />
+
+            <Typography className={classes.formLabelLeft}>
+                Any additional comments/suggestions (optional)
+            </Typography>
+            <TextField
+                className={classes.inputField}
+                variant="outlined"
+                placeholder="Type here..."
+                multiline
+                required
+                rows={4}
+            />
+
+            <Button className={classes.button}>
+                Submit
+            </Button>
+        </Container>
     );
 }
