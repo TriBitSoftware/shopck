@@ -1,7 +1,11 @@
 import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
+import { InputField } from './components/InputField';
+import { BusinessInfo, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
+import { FormHeader } from './form_sections/FormHeader';
+import { ContactInfo } from './form_sections/ContactInfo';
 
 interface BusinessSignUpFormProps {
 
@@ -14,15 +18,6 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "column",
         color: "#2C3345",
-    },
-    formTitle: {
-        fontWeight: "bold",
-        fontSize: 32,
-        marginBottom: 16,
-    },
-
-    titleSectionDivider: {
-        marginTop: 32,
     },
 
     sectionDivider: {
@@ -81,67 +76,19 @@ const useStyles = makeStyles({
     }
 });
 
-
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
-
+    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(initialPersonalInfo);
+    const [businessInfo, setBusinessInfo] = useState<BusinessInfo>(initialBusinessInfo);
 
     return (
         <Container maxWidth="md" className={classes.root}>
 
             {/* Form Heading */}
-            <Typography className={classes.formTitle}>Get listed on ShopCK</Typography>
-            <Typography className={classes.subheading}>For businesses located in the Municipality of Chatham-Kent</Typography>
-            <Divider orientation="horizontal" variant="fullWidth" className={classes.titleSectionDivider} />
+            <FormHeader />
 
             {/* Part 1 - Contant Info */}
-            <Typography className={classes.heading}>
-                Part 1 - Contact Info
-            </Typography>
-            <Typography className={classes.subheading}>This info will not be displayed in the directory, but will be for our records. </Typography>
-            <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
-
-            <Typography className={classes.inputLabel}>
-                Contact Name
-            </Typography>
-
-            <Box width="100%" display="flex" flexDirection="row" className={classes.inputBlock}>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    label="First Name"
-                    required
-                />
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    label="Last Name"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Email Address
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Phone Number
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
+            <ContactInfo personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
 
             {/* Part 2 - Business Info */}
             <Typography className={classes.heading}>
@@ -150,104 +97,105 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
             <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
 
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Business Name
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Business Phone
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Business Address
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Business Email
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Business Website
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Facebook
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Twitter
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Instagram
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
-            <Box width="100%" display="flex" flexDirection="row" alignItems="center" className={classes.inputBlock}>
-                <Typography className={classes.formLabelLeft}>
-                    Other Social Media
-                 </Typography>
-                <TextField
-                    className={classes.inputField}
-                    variant="outlined"
-                    required
-                />
-            </Box>
+            <InputField
+                label="Business Name"
+                name="name"
+                value={businessInfo.name}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Business Phone"
+                name="phoneNumber"
+                value={businessInfo.phoneNumber}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Business Address"
+                name="address"
+                value={businessInfo.address}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Business Email"
+                name="email"
+                value={businessInfo.email}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Business Website"
+                name="websiteUrl"
+                value={businessInfo.websiteUrl}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Facebook"
+                name="facebook"
+                value={businessInfo.facebook}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Twitter"
+                name="twitter"
+                value={businessInfo.twitter}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Instagram"
+                name="instagram"
+                value={businessInfo.instagram}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
+            <InputField
+                label="Other Social Media"
+                name="phoneNumber"
+                value={""}
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
+            />
 
             <Typography className={classes.formLabelLeft}>
                 What categories should your business be listed in?
@@ -406,6 +354,14 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                 className={classes.inputField}
                 variant="outlined"
                 placeholder="Type here..."
+                value={businessInfo.desc}
+                name="desc"
+                onChange={e => {
+                    setBusinessInfo({
+                        ...businessInfo,
+                        [e.target.name]: e.target.value
+                    })
+                }}
                 multiline
                 required
                 rows={8}
@@ -415,11 +371,12 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                 Please upload your logo and 3 additional photos of your business (optional):
             </Typography>
             <DropzoneArea
+                onDrop={acceptedFiles => console.log(acceptedFiles)}
+                onDelete={removedFile => { }}
                 acceptedFiles={['image/*']}
                 dropzoneText={"Drag and drop an image here or click"}
                 filesLimit={4}
                 maxFileSize={30000000}
-            // onChange={(files) => console.log('Files:', files)}
             />
 
             <Typography className={classes.formLabelLeft}>
@@ -434,7 +391,10 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                 rows={4}
             />
 
-            <Button className={classes.button}>
+            <Button className={classes.button} onClick={() => {
+                console.log(personalInfo)
+                console.log(businessInfo)
+            }}>
                 Submit
             </Button>
         </Container>
