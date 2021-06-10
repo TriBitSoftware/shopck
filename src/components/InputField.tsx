@@ -5,6 +5,7 @@ interface InputFieldProps {
     label: string
     name: string | undefined
     value: string
+    type?: string
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined
 }
 
@@ -29,7 +30,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const InputField: React.FC<InputFieldProps> = ({ label, name, value, onChange }: InputFieldProps) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange }: InputFieldProps) => {
     const classes = useStyles();
 
     return (
@@ -42,6 +43,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, onCh
                 variant="outlined"
                 value={value}
                 name={name}
+                type={type}
                 onChange={onChange}
                 required
             />

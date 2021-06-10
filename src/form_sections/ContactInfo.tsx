@@ -111,6 +111,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                 label="Phone Number"
                 name="phoneNumber"
                 value={personalInfo.phoneNumber}
+                type="tel"
                 onChange={e => {
                     setPersonalInfo({
                         ...personalInfo,

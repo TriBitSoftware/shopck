@@ -16,8 +16,8 @@ export type BusinessInfo = {
     twitter: string
     instagram: string
     websiteUrl: string
-    categories: [string] | []
-    photos:[File] | [],
+    categories: string[]
+    photos:File[],
     desc: string
 }
 
@@ -43,3 +43,31 @@ export const initialBusinessInfo: BusinessInfo = {
     photos:[],
     desc: "",
 }
+
+export const businessCategories: string[] = [
+    "Advertising & Media",
+    "Agriculture, Fishing, & Forestry",
+    "Arts, Culture & Entertainment",
+    "Automotive",
+    "Business & Professional Services",
+    "Cleaning & Restoration",
+                    "Computers & Telecommunications",
+                    "Construction Equipment & Contractors",
+                  "Finance & Insurance",
+                  "Golf Course",
+                "Government & Education",
+                "Health Care",
+                  "Legal",
+                "Lodging & Travel",
+                 "Manufacturing, Production & Wholesale",
+                "Not-For-Profit Organizations",
+                  "Personal Services & Day Care",
+                  "Pets & Veterinary",
+                 "Public Utilities & Environment",
+                "Real Estate, Moving & Storage",
+                 "Restaurants, Food Services & Catering",
+                  "Shopping & Specialty Retail",
+                   "Sports & Recreation",
+                    "Transportation",
+                     
+]

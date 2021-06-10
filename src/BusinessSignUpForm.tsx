@@ -1,9 +1,9 @@
-import { Box, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
+import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { InputField } from './components/InputField';
-import { BusinessInfo, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
+import { businessCategories, BusinessInfo, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
 import { FormHeader } from './form_sections/FormHeader';
 import { ContactInfo } from './form_sections/ContactInfo';
 
@@ -81,13 +81,44 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(initialPersonalInfo);
     const [businessInfo, setBusinessInfo] = useState<BusinessInfo>(initialBusinessInfo);
 
+    const addPhotos = (acceptedPhotos: File[]) => {
+        acceptedPhotos.forEach(photo => {
+            businessInfo.photos.push(photo)
+        })
+        setBusinessInfo({
+            ...businessInfo,
+            photos: businessInfo.photos
+        })
+    }
+
+    const removePhoto = (removedPhoto: File) => {
+        setBusinessInfo({
+            ...businessInfo,
+            photos: businessInfo.photos.filter(photo => photo.name != removedPhoto.name)
+        })
+    }
+
+    const handleCategoryChange = (value: string, isChecked: boolean) => {
+        if (isChecked) {
+            setBusinessInfo({
+                ...businessInfo,
+                categories: [...businessInfo.categories, value]
+            })
+        } else {
+            setBusinessInfo({
+                ...businessInfo,
+                categories: businessInfo.categories.filter(category => category != value)
+            })
+        }
+    }
+
     return (
         <Container maxWidth="md" className={classes.root}>
 
             {/* Form Heading */}
             <FormHeader />
 
-            {/* Part 1 - Contant Info */}
+            {/* Part 1 - Contact Info */}
             <ContactInfo personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
 
             {/* Part 2 - Business Info */}
@@ -185,17 +216,6 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     })
                 }}
             />
-            <InputField
-                label="Other Social Media"
-                name="phoneNumber"
-                value={""}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
 
             <Typography className={classes.formLabelLeft}>
                 What categories should your business be listed in?
@@ -203,147 +223,16 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             <FormControl component="fieldset" className={classes.formControl} required>
                 <FormLabel component="legend">Select a maximum of two categories</FormLabel>
                 <Grid container>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Advertising & Media"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Agriculture, Fishing, & Forestry"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Arts, Culture & Entertainment"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Automotive"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Business & Professional Services"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Cleaning & Restoration"
-                        />
-                    </Grid> <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Computers & Telecommunications"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Construction Equipment & Contractors"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Finance & Insurance"
-                        />
-                    </Grid> <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Golf Course"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Government & Education"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Health Care"
-                        />
-                    </Grid>
+                    {businessCategories.map(category => (
+                        <Grid item xs={6}>
+                            <FormControlLabel
+                                disabled={businessInfo.categories.length == 2 && !businessInfo.categories.includes(category)}
+                                control={<Checkbox value={category} onChange={(e, isChecked) => handleCategoryChange(e.target.value, isChecked)} />}
+                                label={category}
+                            />
+                        </Grid>
+                    ))}
 
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Legal"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Lodging & Travel"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Manufacturing, Production & Wholesale"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Not-For-Profit Organizations"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Personal Services & Day Care"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Pets & Veterinary"
-                        />
-                    </Grid> <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Public Utilities & Environment"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Real Estate, Moving & Storage"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Restaurants, Food Services & Catering"
-                        />
-                    </Grid> <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Shopping & Specialty Retail"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Sports & Recreation"
-                        />
-                    </Grid>
-                    <Grid item xs={6}>
-                        <FormControlLabel
-                            control={<Checkbox />}
-                            label="Transportation"
-                        />
-                    </Grid>
                 </Grid>
             </FormControl>
 
@@ -371,8 +260,8 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                 Please upload your logo and 3 additional photos of your business (optional):
             </Typography>
             <DropzoneArea
-                onDrop={acceptedFiles => console.log(acceptedFiles)}
-                onDelete={removedFile => { }}
+                onDrop={acceptedFiles => addPhotos(acceptedFiles)}
+                onDelete={removedFile => { removePhoto(removedFile) }}
                 acceptedFiles={['image/*']}
                 dropzoneText={"Drag and drop an image here or click"}
                 filesLimit={4}
@@ -380,7 +269,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             />
 
             <Typography className={classes.formLabelLeft}>
-                Any additional comments/suggestions (optional)
+                Any additional comments/suggestions. (optional)
             </Typography>
             <TextField
                 className={classes.inputField}
