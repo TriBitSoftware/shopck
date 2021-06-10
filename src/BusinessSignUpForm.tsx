@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { InputField } from './components/InputField';
-import { businessCategories, BusinessInfo, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
+import { businessCategories, BusinessInfo, businessInfoInputFields, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
 import { FormHeader } from './form_sections/FormHeader';
 import { ContactInfo } from './form_sections/ContactInfo';
 
@@ -128,94 +128,27 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
             <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
 
-            <InputField
-                label="Business Name"
-                name="name"
-                value={businessInfo.name}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Business Phone"
-                name="phoneNumber"
-                value={businessInfo.phoneNumber}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Business Address"
-                name="address"
-                value={businessInfo.address}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Business Email"
-                name="email"
-                value={businessInfo.email}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Business Website"
-                name="websiteUrl"
-                value={businessInfo.websiteUrl}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Facebook"
-                name="facebook"
-                value={businessInfo.facebook}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Twitter"
-                name="twitter"
-                value={businessInfo.twitter}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
-            <InputField
-                label="Instagram"
-                name="instagram"
-                value={businessInfo.instagram}
-                onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-            />
+            {businessInfoInputFields.map(inputField => (
+                <InputField
+                    label={inputField.label}
+                    name={inputField.name}
+                    value={inputField.value}
+                    onChange={e => {
+                        inputField.value = e.target.value
+                        setBusinessInfo({
+                            ...businessInfo,
+                            [e.target.name]: e.target.value
+                        })
+                    }}
+                    onClear={(name: string) => {
+                        inputField.value = ""
+                        setBusinessInfo({
+                            ...businessInfo,
+                            [name]: ""
+                        })
+                    }}
+                />
+            ))}
 
             <Typography className={classes.formLabelLeft}>
                 What categories should your business be listed in?

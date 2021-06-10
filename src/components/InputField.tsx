@@ -1,12 +1,14 @@
-import { Box, Typography, TextField, makeStyles } from '@material-ui/core';
+import { Box, Typography, TextField, makeStyles, InputAdornment, IconButton } from '@material-ui/core';
+import { Clear } from '@material-ui/icons';
 import React from 'react'
 
 interface InputFieldProps {
     label: string
-    name: string | undefined
+    name: string
     value: string
     type?: string
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined
+    onClear: (name: string) => void
 }
 
 const useStyles = makeStyles({
@@ -30,7 +32,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange }: InputFieldProps) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange, onClear }: InputFieldProps) => {
     const classes = useStyles();
 
     return (
@@ -46,6 +48,15 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type
                 type={type}
                 onChange={onChange}
                 required
+                InputProps={{
+                    endAdornment: (
+                        <InputAdornment position="end">
+                            <IconButton type="reset" onClick={() => onClear(name)} >
+                                <Clear />
+                            </IconButton>
+                        </InputAdornment>
+                    )
+                }}
             />
         </Box>
     );

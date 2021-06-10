@@ -9,7 +9,7 @@ interface ContactInfoProps {
 }
 
 const useStyles = makeStyles({
-    
+
     sectionDivider: {
         marginTop: 32,
         marginBottom: 32,
@@ -77,6 +77,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                             [e.target.name]: e.target.value
                         })
                     }}
+
                     value={personalInfo.firstName}
                     required
                 />
@@ -106,6 +107,12 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                         [e.target.name]: e.target.value
                     })
                 }}
+                onClear={(name: string) => {
+                    setPersonalInfo({
+                        ...personalInfo,
+                        [name]: ""
+                    })
+                }}
             />
             <InputField
                 label="Phone Number"
@@ -116,6 +123,12 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                     setPersonalInfo({
                         ...personalInfo,
                         [e.target.name]: e.target.value
+                    })
+                }}
+                onClear={(name: string) => {
+                    setPersonalInfo({
+                        ...personalInfo,
+                        [name]: ""
                     })
                 }}
             />

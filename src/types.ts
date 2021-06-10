@@ -44,6 +44,24 @@ export const initialBusinessInfo: BusinessInfo = {
     desc: "",
 }
 
+export type CustomTextInputField = {
+    name: string
+    label: string
+    value: string
+}
+
+export const businessInfoInputFields: CustomTextInputField[] = [
+    { label: "Business Name", name: "name" ,value:""},
+    { label: "Business Phone", name: "phoneNumber",value:"" },
+    { label: "Business Address", name: "address",value:"" },
+    { label: "Business Email", name: "email",value:"" },
+    { label: "Business Website", name: "websiteUrl",value:"" },
+    { label: "Facebook", name: "facebook",value:"" },
+    { label: "Twitter", name: "twitter",value:"" },
+    { label: "Instagram", name: "instagram",value:"" },
+        
+]
+
 export const businessCategories: string[] = [
     "Advertising & Media",
     "Agriculture, Fishing, & Forestry",
@@ -51,23 +69,23 @@ export const businessCategories: string[] = [
     "Automotive",
     "Business & Professional Services",
     "Cleaning & Restoration",
-                    "Computers & Telecommunications",
-                    "Construction Equipment & Contractors",
-                  "Finance & Insurance",
-                  "Golf Course",
-                "Government & Education",
-                "Health Care",
-                  "Legal",
-                "Lodging & Travel",
-                 "Manufacturing, Production & Wholesale",
-                "Not-For-Profit Organizations",
-                  "Personal Services & Day Care",
-                  "Pets & Veterinary",
-                 "Public Utilities & Environment",
-                "Real Estate, Moving & Storage",
-                 "Restaurants, Food Services & Catering",
-                  "Shopping & Specialty Retail",
-                   "Sports & Recreation",
-                    "Transportation",
+    "Computers & Telecommunications",
+    "Construction Equipment & Contractors",
+    "Finance & Insurance",
+    "Golf Course",
+    "Government & Education",
+    "Health Care",
+    "Legal",
+    "Lodging & Travel",
+    "Manufacturing, Production & Wholesale",
+    "Not-For-Profit Organizations",
+    "Personal Services & Day Care",
+    "Pets & Veterinary",
+    "Public Utilities & Environment",
+    "Real Estate, Moving & Storage",
+    "Restaurants, Food Services & Catering",
+    "Shopping & Specialty Retail",
+    "Sports & Recreation",
+    "Transportation",
                      
 ]
