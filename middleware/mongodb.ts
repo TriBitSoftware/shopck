@@ -1,7 +1,7 @@
 import { Db, MongoClient } from 'mongodb'
 
-const MONGODB_URI: string = ""
-const MONGODB_DB = "Shop_Ck"
+const MONGODB_URI: string | undefined = process.env.MONGODB_URI
+const MONGODB_DB = process.env.MONGODB_DB
 
 if (!MONGODB_URI) {
   throw new Error(
@@ -20,6 +20,11 @@ export async function connectToDatabase():Promise<{ client: MongoClient; db: Db 
   const opts = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
+  }
+  if (MONGODB_URI == undefined) {
+    throw new Error(
+      'Invalid MongoDB URI'
+    )
   }
   let conn :{client:MongoClient, db:Db} = await MongoClient.connect(MONGODB_URI, opts).then((client) => {
     return {

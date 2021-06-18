@@ -1,11 +1,11 @@
 import { Typography, Divider, Box, TextField, makeStyles } from '@material-ui/core';
 import React from 'react'
 import { InputField } from '../components/InputField';
-import { PersonalInfo } from '../types';
+import { FormInfo, PersonalInfo } from '../types';
 
 interface ContactInfoProps {
-    personalInfo: PersonalInfo
-    setPersonalInfo: React.Dispatch<React.SetStateAction<PersonalInfo>>
+    formInfo: FormInfo
+    setFormInfo: React.Dispatch<React.SetStateAction<FormInfo>>
 }
 
 const useStyles = makeStyles({
@@ -51,7 +51,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPersonalInfo }: ContactInfoProps) => {
+export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, setFormInfo }: ContactInfoProps) => {
     const classes = useStyles();
     return (
         <div>
@@ -72,13 +72,13 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                     label="First Name"
                     name="firstName"
                     onChange={e => {
-                        setPersonalInfo({
-                            ...personalInfo,
+                        setFormInfo({
+                            ...formInfo,
                             [e.target.name]: e.target.value
                         })
                     }}
 
-                    value={personalInfo.firstName}
+                    value={formInfo.firstName}
                     required
                 />
                 <TextField
@@ -87,12 +87,12 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
                     label="Last Name"
                     name="lastName"
                     onChange={e => {
-                        setPersonalInfo({
-                            ...personalInfo,
+                        setFormInfo({
+                            ...formInfo,
                             [e.target.name]: e.target.value
                         })
                     }}
-                    value={personalInfo.lastName}
+                    value={formInfo.lastName}
                     required
                 />
             </Box>
@@ -100,16 +100,16 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
             <InputField
                 label="Email Address"
                 name="email"
-                value={personalInfo.email}
+                value={formInfo.email}
                 onChange={e => {
-                    setPersonalInfo({
-                        ...personalInfo,
+                    setFormInfo({
+                        ...formInfo,
                         [e.target.name]: e.target.value
                     })
                 }}
                 onClear={(name: string) => {
-                    setPersonalInfo({
-                        ...personalInfo,
+                    setFormInfo({
+                        ...formInfo,
                         [name]: ""
                     })
                 }}
@@ -117,17 +117,17 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ personalInfo, setPerso
             <InputField
                 label="Phone Number"
                 name="phoneNumber"
-                value={personalInfo.phoneNumber}
+                value={formInfo.phoneNumber}
                 type="tel"
                 onChange={e => {
-                    setPersonalInfo({
-                        ...personalInfo,
+                    setFormInfo({
+                        ...formInfo,
                         [e.target.name]: e.target.value
                     })
                 }}
                 onClear={(name: string) => {
-                    setPersonalInfo({
-                        ...personalInfo,
+                    setFormInfo({
+                        ...formInfo,
                         [name]: ""
                     })
                 }}

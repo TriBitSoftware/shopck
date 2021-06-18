@@ -5,10 +5,14 @@ export type PersonalInfo = {
     phoneNumber: string
 }
 
-export type BusinessInfo = {
-    name: string
+export type FormInfo = {
+    firstName: string
+    lastName: string
     email: string
     phoneNumber: string
+    businessName: string
+     businessEmail: string
+     businessPhoneNumber: string
     address: string
     postalCode: string
     city: string
@@ -28,10 +32,14 @@ export const initialPersonalInfo: PersonalInfo = {
     phoneNumber: "",
 }
 
-export const initialBusinessInfo: BusinessInfo = {
-    name: "",
+export const initialFormInfo: FormInfo = {
+    firstName: "",
+    lastName: "",
     email: "",
     phoneNumber: "",
+    businessName: "",
+    businessEmail: "",
+    businessPhoneNumber: "",
     address: "",
     postalCode: "",
     city: "",
@@ -51,10 +59,10 @@ export type CustomTextInputField = {
 }
 
 export const businessInfoInputFields: CustomTextInputField[] = [
-    { label: "Business Name", name: "name" ,value:""},
-    { label: "Business Phone", name: "phoneNumber",value:"" },
-    { label: "Business Address", name: "address",value:"" },
-    { label: "Business Email", name: "email",value:"" },
+    { label: "Business Name", name: "businessName" ,value:""},
+    { label: "Business Phone", name: "businessPhoneNumber",value:"" },
+    { label: "Business Address", name: "businessAddress",value:"" },
+    { label: "Business Email", name: "businessEmail",value:"" },
     { label: "Business Website", name: "websiteUrl",value:"" },
     { label: "Facebook", name: "facebook",value:"" },
     { label: "Twitter", name: "twitter",value:"" },

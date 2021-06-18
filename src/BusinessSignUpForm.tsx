@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { InputField } from './components/InputField';
-import { businessCategories, BusinessInfo, businessInfoInputFields, initialBusinessInfo, initialPersonalInfo, PersonalInfo } from './types';
+import { businessCategories, businessInfoInputFields, FormInfo, initialFormInfo, initialPersonalInfo, PersonalInfo } from './types';
 import { FormHeader } from './form_sections/FormHeader';
 import { ContactInfo } from './form_sections/ContactInfo';
 
@@ -78,36 +78,37 @@ const useStyles = makeStyles({
 
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
-    const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(initialPersonalInfo);
-    const [businessInfo, setBusinessInfo] = useState<BusinessInfo>(initialBusinessInfo);
+    // const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(initialPersonalInfo);
+    // const [businessInfo, setBusinessInfo] = useState<BusinessInfo>(initialBusinessInfo);
+    const [formInfo, setFormInfo] = useState<FormInfo>({ ...initialFormInfo });
 
     const addPhotos = (acceptedPhotos: File[]) => {
         acceptedPhotos.forEach(photo => {
-            businessInfo.photos.push(photo)
+            formInfo.photos.push(photo)
         })
-        setBusinessInfo({
-            ...businessInfo,
-            photos: businessInfo.photos
+        setFormInfo({
+            ...formInfo,
+            photos: formInfo.photos
         })
     }
 
     const removePhoto = (removedPhoto: File) => {
-        setBusinessInfo({
-            ...businessInfo,
-            photos: businessInfo.photos.filter(photo => photo.name != removedPhoto.name)
+        setFormInfo({
+            ...formInfo,
+            photos: formInfo.photos.filter(photo => photo.name != removedPhoto.name)
         })
     }
 
     const handleCategoryChange = (value: string, isChecked: boolean) => {
         if (isChecked) {
-            setBusinessInfo({
-                ...businessInfo,
-                categories: [...businessInfo.categories, value]
+            setFormInfo({
+                ...formInfo,
+                categories: [...formInfo.categories, value]
             })
         } else {
-            setBusinessInfo({
-                ...businessInfo,
-                categories: businessInfo.categories.filter(category => category != value)
+            setFormInfo({
+                ...formInfo,
+                categories: formInfo.categories.filter(category => category != value)
             })
         }
     }
@@ -119,7 +120,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             <FormHeader />
 
             {/* Part 1 - Contact Info */}
-            <ContactInfo personalInfo={personalInfo} setPersonalInfo={setPersonalInfo} />
+            <ContactInfo formInfo={formInfo} setFormInfo={setFormInfo} />
 
             {/* Part 2 - Business Info */}
             <Typography className={classes.heading}>
@@ -135,15 +136,15 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     value={inputField.value}
                     onChange={e => {
                         inputField.value = e.target.value
-                        setBusinessInfo({
-                            ...businessInfo,
+                        setFormInfo({
+                            ...formInfo,
                             [e.target.name]: e.target.value
                         })
                     }}
                     onClear={(name: string) => {
                         inputField.value = ""
-                        setBusinessInfo({
-                            ...businessInfo,
+                        setFormInfo({
+                            ...formInfo,
                             [name]: ""
                         })
                     }}
@@ -159,7 +160,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     {businessCategories.map(category => (
                         <Grid item xs={6}>
                             <FormControlLabel
-                                disabled={businessInfo.categories.length == 2 && !businessInfo.categories.includes(category)}
+                                disabled={formInfo.categories.length == 2 && !formInfo.categories.includes(category)}
                                 control={<Checkbox value={category} onChange={(e, isChecked) => handleCategoryChange(e.target.value, isChecked)} />}
                                 label={category}
                             />
@@ -176,11 +177,11 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                 className={classes.inputField}
                 variant="outlined"
                 placeholder="Type here..."
-                value={businessInfo.desc}
+                value={formInfo.desc}
                 name="desc"
                 onChange={e => {
-                    setBusinessInfo({
-                        ...businessInfo,
+                    setFormInfo({
+                        ...formInfo,
                         [e.target.name]: e.target.value
                     })
                 }}
@@ -214,8 +215,13 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             />
 
             <Button className={classes.button} onClick={() => {
-                console.log(personalInfo)
-                console.log(businessInfo)
+                fetch('/api/business-customer/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formInfo),
+                })
             }}>
                 Submit
             </Button>
