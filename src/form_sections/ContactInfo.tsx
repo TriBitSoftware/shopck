@@ -1,7 +1,7 @@
 import { Typography, Divider, Box, TextField, makeStyles } from '@material-ui/core';
 import React from 'react'
 import { InputField } from '../components/InputField';
-import { FormInfo, PersonalInfo } from '../types';
+import { FormInfo } from '../types';
 
 interface ContactInfoProps {
     formInfo: FormInfo

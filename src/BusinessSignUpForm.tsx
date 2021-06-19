@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { InputField } from './components/InputField';
-import { businessCategories, businessInfoInputFields, FormInfo, initialFormInfo, initialPersonalInfo, PersonalInfo } from './types';
+import { businessCategories, businessInfoInputFields, FormInfo, initialFormInfo } from './types';
 import { FormHeader } from './form_sections/FormHeader';
 import { ContactInfo } from './form_sections/ContactInfo';
 
@@ -78,12 +78,11 @@ const useStyles = makeStyles({
 
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
-    // const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(initialPersonalInfo);
-    // const [businessInfo, setBusinessInfo] = useState<BusinessInfo>(initialBusinessInfo);
     const [formInfo, setFormInfo] = useState<FormInfo>({ ...initialFormInfo });
 
     const addPhotos = (acceptedPhotos: File[]) => {
         acceptedPhotos.forEach(photo => {
+            console.log(photo);
             formInfo.photos.push(photo)
         })
         setFormInfo({
