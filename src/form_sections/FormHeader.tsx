@@ -24,7 +24,7 @@ export const FormHeader: React.FC<FormHeaderProps> = ({ }) => {
     const classes = useStyles();
 
     return (
-        <div>
+        <div id = "formHeader">
             <Typography className={classes.formTitle}>Get listed on ShopCK</Typography>
             <Typography className={classes.subheading}>For businesses located in the Municipality of Chatham-Kent</Typography>
             <Divider orientation="horizontal" variant="fullWidth" className={classes.titleSectionDivider} />

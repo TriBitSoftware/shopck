@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { BusinessSignUpForm } from '../src/BusinessSignUpForm';
-import { makeStyles, Box, Typography, Button } from '@material-ui/core';
+import { makeStyles, Box, Typography, Button, Link } from '@material-ui/core';
+import { PhotoCamera } from '@material-ui/icons';
 
 const useStyles = makeStyles({
   root: {
@@ -47,11 +48,20 @@ const useStyles = makeStyles({
     marginTop: 32,
     alignSelf: "flex-end"
   },
+  instaHandle: {
+    verticalAlign: 'middle',
+    display: 'inline-flex',
+    position: "absolute",
+    right: 32,
+    bottom: 32,
+    color: "#FFF"
+  }
 });
 
 export default function Index() {
 
   const classes = useStyles();
+  const formRef = useRef<HTMLHeadingElement>(null)
 
   return (
     <Box>
@@ -60,12 +70,23 @@ export default function Index() {
           <img className={classes.logo} src={"/images/Logo.png"}></img>
           <Typography variant="h2" className={classes.header}>ShopCK is coming soon!</Typography>
           <Typography variant="h6" className={classes.subheader}>Providing a directory to discover and support local businesses.</Typography>
-          <Button variant="contained" className={classes.button}>Register Now</Button>
+          <Button variant="contained" className={classes.button}
+            onClick={() => formRef.current && formRef.current.scrollIntoView({ behavior: 'smooth' })}>
+            Register Now
+            </Button>
         </Box>
         <img className={classes.homeImage} src={"/images/ShopCKHomeDark.png"}></img>
+        {/* <Typography className={classes.instaHandle} variant="body1"> */}
+          <Link className={classes.instaHandle} target="_blank" href="https://www.instagram.com/k_wicksy/" color="inherit">
+            <PhotoCamera></PhotoCamera>
+            @k_wicksy
+          </Link>
+        {/* </Typography> */}
       </div>
 
+      <h1 ref={formRef}></h1>
       <BusinessSignUpForm />
+
     </Box>
   );
 }

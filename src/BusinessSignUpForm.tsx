@@ -1,11 +1,13 @@
-import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
+import { Box, FormHelperText, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { InputField } from './components/InputField';
-import { businessCategories, businessInfoInputFields, FormInfo, initialFormInfo } from './types';
+import { businessCategories, businessInfoInputFields, CustomTextInputField, FormInfo, initialFormInfo } from './types';
 import { FormHeader } from './form_sections/FormHeader';
 import { ContactInfo } from './form_sections/ContactInfo';
+import { useFormik, getIn } from 'formik';
+import * as Yup from 'yup';
 
 interface BusinessSignUpFormProps {
 
@@ -80,6 +82,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
     const [formInfo, setFormInfo] = useState<FormInfo>({ ...initialFormInfo });
 
+
     const addPhotos = (acceptedPhotos: File[]) => {
         acceptedPhotos.forEach(photo => {
             console.log(photo);
@@ -98,132 +101,143 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
         })
     }
 
-    const handleCategoryChange = (value: string, isChecked: boolean) => {
-        if (isChecked) {
-            setFormInfo({
-                ...formInfo,
-                categories: [...formInfo.categories, value]
+    const FormValidationSchema = Yup.object().shape({
+        firstName: Yup.string()
+            .required('Required'),
+        lastName: Yup.string()
+            .required('Required'),
+        email: Yup.string()
+            .email('Invalid email')
+            .required('Required'),
+        businessName: Yup.string()
+            .required('Required'),
+        businessPhoneNumber: Yup.number()
+            .typeError("Enter a valid number")
+            .required('Required'),
+        businessEmail: Yup.string()
+            .email('Invalid email'),
+        description: Yup.string()
+            .required('Required'),
+        categories: Yup.array().min(1, "Required")
+    });
+
+    const formik = useFormik<FormInfo>({
+        initialValues: { ...initialFormInfo },
+        validationSchema: FormValidationSchema,
+        onSubmit: (values) => {
+            alert(JSON.stringify(values, null, 2));
+            fetch('/api/business-customer/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
             })
-        } else {
-            setFormInfo({
-                ...formInfo,
-                categories: formInfo.categories.filter(category => category != value)
-            })
-        }
-    }
+        },
+    });
 
     return (
         <Container maxWidth="md" className={classes.root}>
 
             {/* Form Heading */}
             <FormHeader />
+            <form onSubmit={formik.handleSubmit} noValidate>
+                <Box display="flex" flexDirection="column">
+                    {/* Part 1 - Contact Info */}
+                    <ContactInfo formErrors={formik.errors} formInfo={formik.values} handleChange={formik.handleChange} />
 
-            {/* Part 1 - Contact Info */}
-            <ContactInfo formInfo={formInfo} setFormInfo={setFormInfo} />
+                    {/* Part 2 - Business Info */}
+                    <Typography className={classes.heading}>
+                        Part 2 - Business Info
+                     </Typography>
+                    <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
+                    <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
 
-            {/* Part 2 - Business Info */}
-            <Typography className={classes.heading}>
-                Part 2 - Business Info
-            </Typography>
-            <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
-            <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
-
-            {businessInfoInputFields.map(inputField => (
-                <InputField
-                    label={inputField.label}
-                    name={inputField.name}
-                    value={inputField.value}
-                    onChange={e => {
-                        inputField.value = e.target.value
-                        setFormInfo({
-                            ...formInfo,
-                            [e.target.name]: e.target.value
-                        })
-                    }}
-                    onClear={(name: string) => {
-                        inputField.value = ""
-                        setFormInfo({
-                            ...formInfo,
-                            [name]: ""
-                        })
-                    }}
-                />
-            ))}
-
-            <Typography className={classes.formLabelLeft}>
-                What categories should your business be listed in?
-            </Typography>
-            <FormControl component="fieldset" className={classes.formControl} required>
-                <FormLabel component="legend">Select a maximum of two categories</FormLabel>
-                <Grid container>
-                    {businessCategories.map(category => (
-                        <Grid item xs={6}>
-                            <FormControlLabel
-                                disabled={formInfo.categories.length == 2 && !formInfo.categories.includes(category)}
-                                control={<Checkbox value={category} onChange={(e, isChecked) => handleCategoryChange(e.target.value, isChecked)} />}
-                                label={category}
-                            />
-                        </Grid>
+                    {businessInfoInputFields.map((inputField: CustomTextInputField) => (
+                        <InputField
+                            label={inputField.label}
+                            name={inputField.name}
+                            value={getIn(formik.values, inputField.name)}
+                            onChange={props => {
+                                formik.handleChange(props);
+                            }}
+                            error={getIn(formik.errors, inputField.name) ? true : false}
+                            helperText={getIn(formik.errors, inputField.name)}
+                            onClear={
+                                () => formik.setFieldValue(inputField.name, "", false)
+                            }
+                        />
                     ))}
 
-                </Grid>
-            </FormControl>
+                    <Typography className={classes.formLabelLeft}>
+                        What categories should your business be listed in?
+                    </Typography>
+                    <FormControl error={formik.errors.categories ? true : false} component="fieldset" className={classes.formControl} required>
+                        <FormLabel component="legend">Select a maximum of two categories</FormLabel>
+                        <Grid container>
+                            {businessCategories.map(category => (
+                                <Grid item xs={6}>
+                                    <FormControlLabel
+                                        disabled={formik.values.categories.length == 2 && !formik.values.categories.includes(category)}
+                                        control={<Checkbox name="categories" value={category} onChange={props => {
+                                            formik.handleChange(props);
+                                        }} />}
+                                        label={category}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <FormHelperText>{formik.errors.categories}</FormHelperText>
+                    </FormControl>
 
-            <Typography className={classes.formLabelLeft}>
-                Business Description (what you would like to say within your directory listing about your business).
-                 </Typography>
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                placeholder="Type here..."
-                value={formInfo.desc}
-                name="desc"
-                onChange={e => {
-                    setFormInfo({
-                        ...formInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
-                multiline
-                required
-                rows={8}
-            />
+                    <Typography className={classes.formLabelLeft}>
+                        Business Description (what you would like to say within your directory listing about your business).
+                    </Typography>
+                    <TextField
+                        className={classes.inputField}
+                        variant="outlined"
+                        placeholder="Type here..."
+                        value={formik.values.description}
+                        name="description"
+                        onChange={formik.handleChange}
+                        multiline
+                        error={formik.errors.description ? true : false}
+                        helperText={formik.errors.description}
+                        rows={8}
+                    />
 
-            <Typography variant="body1" className={classes.formLabelLeft}>
-                Please upload your logo and 3 additional photos of your business (optional):
-            </Typography>
-            <DropzoneArea
-                onDrop={acceptedFiles => addPhotos(acceptedFiles)}
-                onDelete={removedFile => { removePhoto(removedFile) }}
-                acceptedFiles={['image/*']}
-                dropzoneText={"Drag and drop an image here or click"}
-                filesLimit={4}
-                maxFileSize={30000000}
-            />
+                    <Typography variant="body1" className={classes.formLabelLeft}>
+                        Please upload your logo and 3 additional photos of your business (optional):
+                    </Typography>
+                    <DropzoneArea
+                        onDrop={acceptedFiles => addPhotos(acceptedFiles)}
+                        onDelete={removedFile => { removePhoto(removedFile) }}
+                        acceptedFiles={['image/*']}
+                        dropzoneText={"Drag and drop an image here or click"}
+                        filesLimit={4}
+                        maxFileSize={30000000}
+                    />
 
-            <Typography className={classes.formLabelLeft}>
-                Any additional comments/suggestions. (optional)
-            </Typography>
-            <TextField
-                className={classes.inputField}
-                variant="outlined"
-                placeholder="Type here..."
-                multiline
-                required
-                rows={4}
-            />
+                    <Typography className={classes.formLabelLeft}>
+                        Any additional comments/suggestions. (optional)
+                    </Typography>
+                    <TextField
+                        name="feedback"
+                        value={formik.values.feedback}
+                        onChange={formik.handleChange}
+                        className={classes.inputField}
+                        variant="outlined"
+                        placeholder="Type here..."
+                        multiline
+                        required
+                        rows={4}
+                    />
 
-            <Button className={classes.button} onClick={() => {
-                fetch('/api/business-customer/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(formInfo),
-                })
-            }}>
-                Submit
-            </Button>
+                    <Button className={classes.button} type="submit">
+                        Submit
+                    </Button>
+                </Box>
+            </form>
         </Container>
     );
 }

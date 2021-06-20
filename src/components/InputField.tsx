@@ -9,6 +9,8 @@ interface InputFieldProps {
     type?: string
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined
     onClear: (name: string) => void
+    error?: boolean
+    helperText?: string
 }
 
 const useStyles = makeStyles({
@@ -32,7 +34,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange, onClear }: InputFieldProps) => {
+export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange, onClear, error, helperText }: InputFieldProps) => {
     const classes = useStyles();
 
     return (
@@ -47,6 +49,8 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type
                 name={name}
                 type={type}
                 onChange={onChange}
+                error={error}
+                helperText={helperText}
                 required
                 InputProps={{
                     endAdornment: (

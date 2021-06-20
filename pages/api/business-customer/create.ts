@@ -5,11 +5,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method != "POST") {
      res.status(405).end()
   }
-  const { db } = await connectToDatabase();
-  db.collection("business-customer").insertOne(req.body, function(err) {
-    if (err) throw err;
-    console.log("1 document inserted");
-  });
+  // const { db } = await connectToDatabase();
+  // db.collection("business-customer").insertOne(req.body, function(err) {
+  //   if (err) throw err;
+  //   console.log("1 document inserted");
+  // });
 
   let nodemailer = require('nodemailer')
   const transporter = nodemailer.createTransport({
@@ -63,7 +63,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
       <p>Business Categories: ${req.body.categories}</p>
       <p>Business Description: ${req.body.desc}</p>
       <p>Photos: ${req.body.photos}</p>
-      <p>Comments/Suggestion:</p>
+      <p>Comments/Suggestion:${req.body.feedback}</p>
     </div>`
   }
 

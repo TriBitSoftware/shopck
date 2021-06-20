@@ -22,7 +22,8 @@ export type FormInfo = {
     websiteUrl: string
     categories: string[]
     photos:File[],
-    desc: string
+    description: string
+    feedback:string
 }
 
 export const initialPersonalInfo: PersonalInfo = {
@@ -49,7 +50,8 @@ export const initialFormInfo: FormInfo = {
     websiteUrl: "",
     categories: [],
     photos:[],
-    desc: "",
+    description: "",
+    feedback:""
 }
 
 export type CustomTextInputField = {

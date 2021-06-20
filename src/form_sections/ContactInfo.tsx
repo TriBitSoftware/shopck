@@ -2,10 +2,12 @@ import { Typography, Divider, Box, TextField, makeStyles } from '@material-ui/co
 import React from 'react'
 import { InputField } from '../components/InputField';
 import { FormInfo } from '../types';
+import { FormikErrors } from 'formik';
 
 interface ContactInfoProps {
     formInfo: FormInfo
-    setFormInfo: React.Dispatch<React.SetStateAction<FormInfo>>
+    handleChange: (e: React.ChangeEvent<any>) => void
+    formErrors: FormikErrors<FormInfo>
 }
 
 const useStyles = makeStyles({
@@ -51,7 +53,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, setFormInfo }: ContactInfoProps) => {
+export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, formErrors, handleChange }: ContactInfoProps) => {
     const classes = useStyles();
     return (
         <div>
@@ -71,13 +73,9 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, setFormInfo 
                     variant="outlined"
                     label="First Name"
                     name="firstName"
-                    onChange={e => {
-                        setFormInfo({
-                            ...formInfo,
-                            [e.target.name]: e.target.value
-                        })
-                    }}
-
+                    error={formErrors.firstName ? true : false}
+                    helperText={formErrors.firstName}
+                    onChange={handleChange}
                     value={formInfo.firstName}
                     required
                 />
@@ -86,12 +84,9 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, setFormInfo 
                     variant="outlined"
                     label="Last Name"
                     name="lastName"
-                    onChange={e => {
-                        setFormInfo({
-                            ...formInfo,
-                            [e.target.name]: e.target.value
-                        })
-                    }}
+                    error={formErrors.lastName ? true : false}
+                    helperText={formErrors.lastName}
+                    onChange={handleChange}
                     value={formInfo.lastName}
                     required
                 />
@@ -101,35 +96,29 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, setFormInfo 
                 label="Email Address"
                 name="email"
                 value={formInfo.email}
-                onChange={e => {
-                    setFormInfo({
-                        ...formInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
+                error={formErrors.email ? true : false}
+                helperText={formErrors.email}
+                onChange={handleChange}
                 onClear={(name: string) => {
-                    setFormInfo({
-                        ...formInfo,
-                        [name]: ""
-                    })
+                    // setFormInfo({
+                    //     ...formInfo,
+                    //     [name]: ""
+                    // })
                 }}
             />
             <InputField
                 label="Phone Number"
                 name="phoneNumber"
+                error={formErrors.phoneNumber ? true : false}
+                helperText={formErrors.phoneNumber}
                 value={formInfo.phoneNumber}
                 type="tel"
-                onChange={e => {
-                    setFormInfo({
-                        ...formInfo,
-                        [e.target.name]: e.target.value
-                    })
-                }}
+                onChange={handleChange}
                 onClear={(name: string) => {
-                    setFormInfo({
-                        ...formInfo,
-                        [name]: ""
-                    })
+                    // setFormInfo({
+                    //     ...formInfo,
+                    //     [name]: ""
+                    // })
                 }}
             />
         </div>
