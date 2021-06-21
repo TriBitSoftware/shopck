@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { BusinessSignUpForm } from '../src/BusinessSignUpForm';
-import { makeStyles, Box, Typography, Button, Link } from '@material-ui/core';
+import { makeStyles, Box, Typography, Button, Link, Avatar } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 
 const useStyles = makeStyles({
@@ -55,6 +55,16 @@ const useStyles = makeStyles({
     right: 32,
     bottom: 32,
     color: "#FFF"
+  },
+  footer: {
+    minHeight: "50px",
+    padding: "20px",
+    backgroundColor: "#1c1d1f",
+    color: "#939596",
+  },
+
+  avatarLogo: {
+    margin: 8,
   }
 });
 
@@ -77,8 +87,8 @@ export default function Index() {
         </Box>
         <img className={classes.homeImage} src={"/images/ShopCKHomeDark.png"}></img>
         {/* <Typography className={classes.instaHandle} variant="body1"> */}
-          <Link className={classes.instaHandle} target="_blank" href="https://www.instagram.com/k_wicksy/" color="inherit">
-            <PhotoCamera></PhotoCamera>
+        <Link className={classes.instaHandle} target="_blank" href="https://www.instagram.com/k_wicksy/" color="inherit">
+          <PhotoCamera></PhotoCamera>
             @k_wicksy
           </Link>
         {/* </Typography> */}
@@ -87,6 +97,18 @@ export default function Index() {
       <h1 ref={formRef}></h1>
       <BusinessSignUpForm />
 
-    </Box>
+      <Box className={classes.footer} display="flex" flexDirection="column">
+
+
+        <Link target="_blank" href="https://www.tribitsoftware.ca/" color="inherit">
+          <Box display="flex" flexDirection="row" alignItems="center" alignContent="center">
+            <Typography variant="h6">Powered by Tribit Software</Typography>
+            <Avatar className={classes.avatarLogo} alt="Logo" src="/images/Tribit.png" />
+          </Box>
+        </Link>
+
+        <Typography variant="body1">@Copyright 2021 ShopCK</Typography>
+      </Box>
+    </Box >
   );
 }

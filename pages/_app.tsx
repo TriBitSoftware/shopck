@@ -20,6 +20,7 @@ export default function MyApp(props: AppProps) {
     <React.Fragment>
       <Head>
         <title>ShopCK</title>
+        <link rel="shortcut icon" href="/images/Logo.png" />
         <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>

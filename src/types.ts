@@ -11,11 +11,9 @@ export type FormInfo = {
     email: string
     phoneNumber: string
     businessName: string
-     businessEmail: string
-     businessPhoneNumber: string
-    address: string
-    postalCode: string
-    city: string
+    businessEmail: string
+    businessPhoneNumber: string
+    businessAddress: string
     facebook: string
     twitter: string
     instagram: string
@@ -41,9 +39,7 @@ export const initialFormInfo: FormInfo = {
     businessName: "",
     businessEmail: "",
     businessPhoneNumber: "",
-    address: "",
-    postalCode: "",
-    city: "",
+    businessAddress: "",
     facebook: "",
     twitter: "",
     instagram: "",

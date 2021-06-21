@@ -12,6 +12,7 @@
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.4",
     "formik": "^2.2.9",
+    "formik-error-focus": "^1.1.0",
     "material-ui-dropzone": "^3.5.0",
     "material-ui-image": "^3.3.2",
     "mongodb": "^3.6.9",

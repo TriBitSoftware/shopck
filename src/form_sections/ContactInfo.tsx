@@ -8,6 +8,7 @@ interface ContactInfoProps {
     formInfo: FormInfo
     handleChange: (e: React.ChangeEvent<any>) => void
     formErrors: FormikErrors<FormInfo>
+    onClear: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<FormInfo>>
 }
 
 const useStyles = makeStyles({
@@ -53,7 +54,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, formErrors, handleChange }: ContactInfoProps) => {
+export const ContactInfo: React.FC<ContactInfoProps> = ({ onClear, formInfo, formErrors, handleChange }: ContactInfoProps) => {
     const classes = useStyles();
     return (
         <div>
@@ -99,12 +100,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, formErrors, 
                 error={formErrors.email ? true : false}
                 helperText={formErrors.email}
                 onChange={handleChange}
-                onClear={(name: string) => {
-                    // setFormInfo({
-                    //     ...formInfo,
-                    //     [name]: ""
-                    // })
-                }}
+                onClear={() => onClear("email", "", false)}
             />
             <InputField
                 label="Phone Number"
@@ -114,12 +110,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ formInfo, formErrors, 
                 value={formInfo.phoneNumber}
                 type="tel"
                 onChange={handleChange}
-                onClear={(name: string) => {
-                    // setFormInfo({
-                    //     ...formInfo,
-                    //     [name]: ""
-                    // })
-                }}
+                onClear={() => onClear("phoneNumber", "", false)}
             />
         </div>
     );

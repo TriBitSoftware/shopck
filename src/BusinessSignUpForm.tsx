@@ -125,8 +125,16 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
         initialValues: { ...initialFormInfo },
         validationSchema: FormValidationSchema,
         onSubmit: (values) => {
-            alert(JSON.stringify(values, null, 2));
+            // alert(JSON.stringify(values, null, 2));
             fetch('/api/business-customer/create', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(values),
+            })
+
+            fetch('/api/submitForm/email', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -144,7 +152,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
             <form onSubmit={formik.handleSubmit} noValidate>
                 <Box display="flex" flexDirection="column">
                     {/* Part 1 - Contact Info */}
-                    <ContactInfo formErrors={formik.errors} formInfo={formik.values} handleChange={formik.handleChange} />
+                    <ContactInfo onClear={formik.setFieldValue} formErrors={formik.errors} formInfo={formik.values} handleChange={formik.handleChange} />
 
                     {/* Part 2 - Business Info */}
                     <Typography className={classes.heading}>

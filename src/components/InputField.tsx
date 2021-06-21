@@ -8,7 +8,7 @@ interface InputFieldProps {
     value: string
     type?: string
     onChange?: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement> | undefined
-    onClear: (name: string) => void
+    onClear: () => void
     error?: boolean
     helperText?: string
 }
@@ -55,7 +55,7 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">
-                            <IconButton type="reset" onClick={() => onClear(name)} >
+                            <IconButton type="reset" onClick={() => onClear()} >
                                 <Clear />
                             </IconButton>
                         </InputAdornment>
