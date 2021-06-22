@@ -5,7 +5,7 @@ import BusinessCustomer from "../models/businessCustomerModel"
 const submitForm = async (req: Request, res: Response): Promise<void> => {
     try {
         const body = req.body as IBusinessCustomer
-       console.log(body)
+       console.log(req.body)
         const businessCustomer: IBusinessCustomer = new BusinessCustomer({
             firstName: body.firstName,
             lastName: body.lastName,
@@ -32,7 +32,11 @@ const submitForm = async (req: Request, res: Response): Promise<void> => {
             .status(201)
             .json({ message: "Form submited", businessCustomer: submittedBusinessCustomer, business: registeredBusinesses })
     } catch (error) {
-        throw error
+        console.log(error)
+         res
+            .status(500)
+            .json({errorMessage: error})
+   
     }
 }
 export {submitForm}

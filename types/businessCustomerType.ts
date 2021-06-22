@@ -14,7 +14,7 @@ export interface IBusinessCustomer extends Document {
     instagram: string
     websiteUrl: string
     categories: string[]
-    photos:File[],
+    photos:String[],
     description: string
     feedback:string
 }

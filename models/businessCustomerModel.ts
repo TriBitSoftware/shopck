@@ -54,11 +54,11 @@ const businessCustomerSchema:Schema =  new Schema (
       required: true,
     },
     photos: {
-      type: String,
+      type: [String],
     },
     description: {
       type: String,
-      required: true,
+      //required: true,
     },
     feedback: {
       type: String,

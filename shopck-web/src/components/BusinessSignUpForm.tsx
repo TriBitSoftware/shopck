@@ -122,17 +122,30 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
         categories: Yup.array().min(1, "Required")
     });
 
+    let axiosConfig = {
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'Accept': 'Token',
+            "Access-Control-Allow-Origin": "*",
+
+        }
+    };
+
     const formik = useFormik<FormInfo>({
         initialValues: { ...initialFormInfo },
         validationSchema: FormValidationSchema,
         onSubmit: (values) => {
+            console.log("Client side: ")
+            console.log(JSON.stringify(values))
             axios.post(
-                "http://localhost:4000/submitForm",
-                JSON.stringify(values)
+                "/submitForm",
+                JSON.stringify(values),
+                axiosConfig
             ).then(res => {
                 return axios.post(
-                    "http://localhost:4000/registrationEmail",
-                    JSON.stringify(values)
+                    "/registrationEmail",
+                    JSON.stringify(values),
+                    axiosConfig
                 )
             }).then(res => {
 
