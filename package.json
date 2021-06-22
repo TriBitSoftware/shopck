@@ -1,31 +1,35 @@
 {
-  "name": "shopck-web",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start -p $PORT"
-  },
+  "name": "shopck-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
   "dependencies": {
-    "@material-ui/core": "^4.11.4",
-    "@material-ui/icons": "^4.11.2",
-    "@material-ui/styles": "^4.11.4",
-    "formik": "^2.2.9",
-    "formik-error-focus": "^1.1.0",
-    "material-ui-dropzone": "^3.5.0",
-    "material-ui-image": "^3.3.2",
-    "mongodb": "^3.6.9",
-    "next": "10.2.3",
-    "next-connect": "^0.10.1",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.14",
     "nodemailer": "^6.6.2",
-    "react": "17.0.2",
-    "react-dom": "17.0.2",
-    "yup": "^0.32.9"
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4",
+     "dotenv": "^10.0.0"
   },
   "devDependencies": {
-    "@types/mongodb": "^3.6.17",
-    "@types/react": "17.0.9",
-    "typescript": "4.3.2"
+    "@types/cors": "^2.8.10",
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.12",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^15.12.4",
+    "concurrently": "^6.2.0",
+    "dotenv": "^10.0.0",
+    "nodemon": "^2.0.7"
+  },
+  "scripts": {
+    "client": "cd shopck-web && yarn start",
+    "start": "ts-node app.ts",
+     "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
+    "heroku-postbuild": "cd shopck-web && yarn install --only=dev && yarn install && yarn run build"
+  },
+  "engines": {
+    "node": "16.3.0"
   }
 }
