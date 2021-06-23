@@ -1,13 +1,13 @@
 import express, { Express } from "express"
 import mongoose from "mongoose"
 import cors from "cors"
-import routes from "./routes/routes"
 import bp from 'body-parser'
 
 require("dotenv").config();
 
 const app: Express = express()
 import path from "path"
+import routes from "./shopck-server/routes/routes";
 
 const PORT: string | number = process.env.PORT || 4000
 
