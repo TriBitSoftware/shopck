@@ -8,6 +8,7 @@ interface ContactInfoProps {
     formInfo: FormInfo
     handleChange: (e: React.ChangeEvent<any>) => void
     formErrors: FormikErrors<FormInfo>
+    showError: (key: string) => boolean
     onClear: (field: string, value: any, shouldValidate?: boolean | undefined) => Promise<void> | Promise<FormikErrors<FormInfo>>
 }
 
@@ -54,7 +55,7 @@ const useStyles = makeStyles({
     },
 });
 
-export const ContactInfo: React.FC<ContactInfoProps> = ({ onClear, formInfo, formErrors, handleChange }: ContactInfoProps) => {
+export const ContactInfo: React.FC<ContactInfoProps> = ({ showError, onClear, formInfo, formErrors, handleChange }: ContactInfoProps) => {
     const classes = useStyles();
     return (
         <div>
@@ -74,8 +75,8 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ onClear, formInfo, for
                     variant="outlined"
                     label="First Name"
                     name="firstName"
-                    error={formErrors.firstName ? true : false}
-                    helperText={formErrors.firstName}
+                    error={showError("firstName")}
+                    helperText={showError("firstName") && formErrors.firstName}
                     onChange={handleChange}
                     value={formInfo.firstName}
                     required
@@ -85,8 +86,8 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ onClear, formInfo, for
                     variant="outlined"
                     label="Last Name"
                     name="lastName"
-                    error={formErrors.lastName ? true : false}
-                    helperText={formErrors.lastName}
+                    error={showError("lastName")}
+                    helperText={showError("firstName") && formErrors.lastName}
                     onChange={handleChange}
                     value={formInfo.lastName}
                     required
@@ -97,16 +98,16 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({ onClear, formInfo, for
                 label="Email Address"
                 name="email"
                 value={formInfo.email}
-                error={formErrors.email ? true : false}
-                helperText={formErrors.email}
+                error={showError("email")}
+                helperText={showError("firstName") ? formErrors.email : ""}
                 onChange={handleChange}
                 onClear={() => onClear("email", "", false)}
             />
             <InputField
                 label="Phone Number"
                 name="phoneNumber"
-                error={formErrors.phoneNumber ? true : false}
-                helperText={formErrors.phoneNumber}
+                error={showError("phoneNumber")}
+                helperText={showError("firstName") ? formErrors.phoneNumber : ""}
                 value={formInfo.phoneNumber}
                 type="tel"
                 onChange={handleChange}

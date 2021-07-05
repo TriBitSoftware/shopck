@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import { useRef } from 'react';
 import { makeStyles, Box, Typography, Button, Link, Avatar } from '@material-ui/core';
 import { PhotoCamera } from '@material-ui/icons';
 import { BusinessSignUpForm } from './components/BusinessSignUpForm';
@@ -77,20 +77,20 @@ export default function App() {
     <Box>
       <div className={classes.imageContainer}>
         <Box className={classes.centeredText}>
-          <img className={classes.logo} src={"/images/Logo.png"}></img>
+          <img className={classes.logo} src={"/images/Logo.png"} alt={"logo"}></img>
           <Typography variant="h2" className={classes.header}>ShopCK is coming soon!</Typography>
           <Typography variant="h6" className={classes.subheader}>Providing a directory to discover and support local businesses.</Typography>
           <Button variant="contained" className={classes.button}
             onClick={() => formRef.current && formRef.current.scrollIntoView({ behavior: 'smooth' })}>
             Register Now
-            </Button>
+          </Button>
         </Box>
-        <img className={classes.homeImage} src={"/images/ShopCKHomeDark.png"}></img>
+        <img className={classes.homeImage} src={"/images/ShopCKHomeDark.png"} alt={"background"}></img>
         {/* <Typography className={classes.instaHandle} variant="body1"> */}
         <Link className={classes.instaHandle} target="_blank" href="https://www.instagram.com/k_wicksy/" color="inherit">
           <PhotoCamera></PhotoCamera>
-            @k_wicksy
-          </Link>
+          @k_wicksy
+        </Link>
         {/* </Typography> */}
       </div>
 
@@ -107,7 +107,7 @@ export default function App() {
           </Box>
         </Link>
 
-        <Typography variant="body1">@Copyright 2021 ShopCK</Typography>
+        <Typography variant="body2">@Copyright 2021 ShopCK</Typography>
       </Box>
     </Box >
   );

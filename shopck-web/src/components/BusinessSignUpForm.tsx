@@ -1,18 +1,19 @@
-import { Box, FormHelperText, Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, TextField, Typography } from '@material-ui/core';
 import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { InputField } from './InputField';
 import * as Yup from 'yup';
 import { useFormik, getIn } from 'formik';
+import { FormInfo, initialFormInfo, businessInfoInputFields, CustomTextInputField, businessCategories, Image } from '../type';
+import { storage } from '../firebase-config';
+import { Container, Divider, Checkbox, TextField, Box, Typography, FormControl, FormLabel, Grid, FormControlLabel, FormHelperText, Button } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
-import { FormInfo, initialFormInfo, businessInfoInputFields, CustomTextInputField, businessCategories } from '../type';
 import { ContactInfo } from './form_sections/ContactInfo';
 import { FormHeader } from './form_sections/FormHeader';
-import axios, { AxiosResponse } from 'axios';
+import { InputField } from './InputField';
 
 interface BusinessSignUpFormProps {
 
 }
+
 
 const useStyles = makeStyles({
     root: {
@@ -81,26 +82,7 @@ const useStyles = makeStyles({
 
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
-    const [formInfo, setFormInfo] = useState<FormInfo>({ ...initialFormInfo });
-
-
-    const addPhotos = (acceptedPhotos: File[]) => {
-        acceptedPhotos.forEach(photo => {
-            console.log(photo);
-            formInfo.photos.push(photo)
-        })
-        setFormInfo({
-            ...formInfo,
-            photos: formInfo.photos
-        })
-    }
-
-    const removePhoto = (removedPhoto: File) => {
-        setFormInfo({
-            ...formInfo,
-            photos: formInfo.photos.filter(photo => photo.name != removedPhoto.name)
-        })
-    }
+    const [photos, setPhotos] = useState<File[]>([]);
 
     const FormValidationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -135,51 +117,90 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
         initialValues: { ...initialFormInfo },
         validationSchema: FormValidationSchema,
         onSubmit: (values) => {
-            console.log("Client side: ")
-            console.log(JSON.stringify(values))
-            axios.post(
-                "/submitForm",
-                JSON.stringify(values),
-                axiosConfig
-            ).then(res => {
-                return axios.post(
-                    "/registrationEmail",
-                    JSON.stringify(values),
-                    axiosConfig
-                )
-            }).then(res => {
 
-            })
+            // uploadImages().then(res => {
+
+            //     let formData: FormInfo = { ...values, photos: res }
+
+            //     axios.post(
+            //         "/submitForm",
+            //         JSON.stringify(formData),
+            //         axiosConfig
+            //     ).then(res => {
+            //         return axios.post(
+            //             "/registrationEmail",
+            //             JSON.stringify(formData),
+            //             axiosConfig
+            //         )
+            //     }).then(res => {
+
+            //     })
+            // })
         },
     });
+
+    const showError = (key: string) => {
+        return getIn(formik.errors, key) && getIn(formik.touched, key) ? true : false
+    }
+
+    const uploadImages = async () => {
+        const urls = photos.map(async photo => {
+            let currentImageName = photo.name.split('.').slice(0, -1).join('.') + "-" + Date.now();
+            const uploadImage = await storage.ref(`images/business-images/${currentImageName}`).put(photo);
+
+            const url = await uploadImage.ref.getDownloadURL();
+            let image: Image = {
+                imageName: currentImageName,
+                imageData: url,
+                imageType: photo.type
+            }
+            return image;
+        })
+        let images = await Promise.all(urls)
+        return images
+    }
+
+    const addPhotos = (acceptedPhotos: File[]) => {
+        acceptedPhotos.forEach(photo => {
+            setPhotos(currPhotos => [...currPhotos, photo])
+        })
+    }
+
+    const removePhoto = (removedPhoto: File) => {
+        setPhotos(currPhotos => currPhotos.filter(photo => photo.name != removedPhoto.name))
+    }
 
     return (
         <Container maxWidth="md" className={classes.root}>
 
             {/* Form Heading */}
             <FormHeader />
+
             <form onSubmit={formik.handleSubmit} noValidate>
                 <Box display="flex" flexDirection="column">
                     {/* Part 1 - Contact Info */}
-                    <ContactInfo onClear={formik.setFieldValue} formErrors={formik.errors} formInfo={formik.values} handleChange={formik.handleChange} />
+                    <ContactInfo onClear={formik.setFieldValue} showError={showError} formErrors={formik.errors} formInfo={formik.values} handleChange={formik.handleChange} />
 
                     {/* Part 2 - Business Info */}
                     <Typography className={classes.heading}>
                         Part 2 - Business Info
-                     </Typography>
+                    </Typography>
+
                     <Typography className={classes.subheading}>Provide the information that will be shown on your ShopCK business listing.</Typography>
+
                     <Divider orientation="horizontal" variant="fullWidth" className={classes.sectionDivider} />
 
-                    {businessInfoInputFields.map((inputField: CustomTextInputField) => (
+                    {businessInfoInputFields.map((inputField: CustomTextInputField, index: number) => (
                         <InputField
+                            key={index}
                             label={inputField.label}
                             name={inputField.name}
                             value={getIn(formik.values, inputField.name)}
                             onChange={props => {
                                 formik.handleChange(props);
                             }}
-                            error={getIn(formik.errors, inputField.name) ? true : false}
-                            helperText={getIn(formik.errors, inputField.name)}
+                            error={showError(inputField.name)}
+                            helperText={showError(inputField.name) && getIn(formik.errors, inputField.name)}
                             onClear={
                                 () => formik.setFieldValue(inputField.name, "", false)
                             }
@@ -189,11 +210,12 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     <Typography className={classes.formLabelLeft}>
                         What categories should your business be listed in?
                     </Typography>
-                    <FormControl error={formik.errors.categories ? true : false} component="fieldset" className={classes.formControl} required>
+
+                    <FormControl error={showError("categories")} component="fieldset" className={classes.formControl} required>
                         <FormLabel component="legend">Select a maximum of two categories</FormLabel>
                         <Grid container>
                             {businessCategories.map(category => (
-                                <Grid item xs={6}>
+                                <Grid item xs={6} key={category} >
                                     <FormControlLabel
                                         disabled={formik.values.categories.length == 2 && !formik.values.categories.includes(category)}
                                         control={<Checkbox name="categories" value={category} onChange={props => {
@@ -204,12 +226,13 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                                 </Grid>
                             ))}
                         </Grid>
-                        <FormHelperText>{formik.errors.categories}</FormHelperText>
+                        <FormHelperText> {showError("categories") ? formik.errors.categories : ""}</FormHelperText>
                     </FormControl>
 
                     <Typography className={classes.formLabelLeft}>
                         Business Description (what you would like to say within your directory listing about your business).
                     </Typography>
+
                     <TextField
                         className={classes.inputField}
                         variant="outlined"
@@ -218,14 +241,15 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                         name="description"
                         onChange={formik.handleChange}
                         multiline
-                        error={formik.errors.description ? true : false}
-                        helperText={formik.errors.description}
+                        error={showError("description")}
+                        helperText={showError("description") && formik.errors.description}
                         rows={8}
                     />
 
                     <Typography variant="body1" className={classes.formLabelLeft}>
                         Please upload your logo and 3 additional photos of your business (optional):
                     </Typography>
+
                     <DropzoneArea
                         onDrop={acceptedFiles => addPhotos(acceptedFiles)}
                         onDelete={removedFile => { removePhoto(removedFile) }}
@@ -238,6 +262,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                     <Typography className={classes.formLabelLeft}>
                         Any additional comments/suggestions. (optional)
                     </Typography>
+
                     <TextField
                         name="feedback"
                         value={formik.values.feedback}

@@ -1,8 +1,7 @@
-export type PersonalInfo = {
-    firstName: string
-    lastName: string
-    email: string
-    phoneNumber: string
+export type Image = {
+    imageName: string,
+    imageData: string,
+    imageType: string
 }
 
 export type FormInfo = {
@@ -19,16 +18,9 @@ export type FormInfo = {
     instagram: string
     websiteUrl: string
     categories: string[]
-    photos:File[],
+    photos:Image[],
     description: string
     feedback:string
-}
-
-export const initialPersonalInfo: PersonalInfo = {
-    firstName: "",
-    lastName:"",
-    email: "",
-    phoneNumber: "",
 }
 
 export const initialFormInfo: FormInfo = {

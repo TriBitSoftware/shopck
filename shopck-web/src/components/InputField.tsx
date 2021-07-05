@@ -31,7 +31,16 @@ const useStyles = makeStyles({
     inputBlock: {
         marginTop: 8,
         marginBottom: 8,
+        "&:hover": {
+            "&:clearButton": {
+                visibilty: 'visible'
+            },
+        },
     },
+
+    clearButton: {
+        visibility: 'hidden'
+    }
 });
 
 export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type, onChange, onClear, error, helperText }: InputFieldProps) => {
@@ -54,8 +63,8 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type
                 required
                 InputProps={{
                     endAdornment: (
-                        <InputAdornment position="end">
-                            <IconButton type="reset" onClick={() => onClear()} >
+                        <InputAdornment position="end" >
+                            <IconButton type="reset" onClick={() => onClear()} className={classes.clearButton} >
                                 <Clear />
                             </IconButton>
                         </InputAdornment>

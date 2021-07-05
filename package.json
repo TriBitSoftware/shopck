@@ -6,12 +6,13 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "mongoose": "^5.12.14",
+    "multer": "^1.4.2",
     "nodemailer": "^6.6.2",
     "ts-node": "^10.0.0",
-    "typescript": "^4.3.4",
-     "dotenv": "^10.0.0"
+    "typescript": "^4.3.4"
   },
   "devDependencies": {
     "@types/cors": "^2.8.10",
@@ -26,7 +27,7 @@
   "scripts": {
     "client": "cd shopck-web && yarn start",
     "start": "ts-node app.ts",
-     "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
+    "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
     "heroku-postbuild": "cd shopck-web && yarn install --only=dev && yarn install && yarn run build"
   },
   "engines": {

@@ -14,7 +14,19 @@ export interface IBusinessCustomer extends Document {
     instagram: string
     websiteUrl: string
     categories: string[]
-    photos:String[],
+    photos:ImageUpload[],
     description: string
     feedback:string
 }
+
+export type ImageUpload = {
+    imageName: string,
+    imageData: string,
+    imageType: string
+}
+
+export type FileAttachment = {
+    filename: string,
+    path: string,
+    contentType: string
+}  

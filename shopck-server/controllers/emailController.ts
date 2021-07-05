@@ -1,9 +1,17 @@
 import { Response, Request } from "express"
-import { IBusinessCustomer } from "../types/businessCustomerType"
+import { FileAttachment, IBusinessCustomer } from "../types/businessCustomerType"
 
 const registrationEmail = async (req: Request, res: Response): Promise<void> => {
     try {
         const body = req.body as IBusinessCustomer
+        const attachments: FileAttachment[] = body.photos.map(photo => {
+            return {
+                filename: photo.imageName,
+                path: photo.imageData,
+                contentType: photo.imageType
+            }
+        })
+
         let nodemailer = require('nodemailer')
         const transporter = nodemailer.createTransport({
             service: "Gmail",
@@ -18,7 +26,8 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
         const mailData = {
             from: 'shopckregister@gmail.com',
             to: 'fareed878@hotmail.com',
-            subject: `Business Registration From ${body.firstName +" "+ body.lastName}`,
+            subject: `Business Registration From ${body.firstName + " " + body.lastName}`,
+            attachments:attachments,
             text: `${body.firstName +" "+ body.lastName}registered their business on ShopCK!\n
             Part 1 - Contact Info\n
             Name: ${body.firstName +" "+ body.lastName}\n

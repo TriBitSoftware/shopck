@@ -1,6 +1,12 @@
 import { IBusinessCustomer } from "../types/businessCustomerType"
 import { model, Schema } from "mongoose"
 
+const ImageSchema = new Schema({
+  imageName: String,
+  imageData: String,
+  imageType: String,
+});
+
 const businessCustomerSchema:Schema =  new Schema (
     {
     firstName: {
@@ -18,7 +24,6 @@ const businessCustomerSchema:Schema =  new Schema (
     },
     phoneNumber: {
       type: String,
-      required: true,
     },
     businessName: {
       type: String,
@@ -26,7 +31,6 @@ const businessCustomerSchema:Schema =  new Schema (
     },
     businessEmail: {
       type: String,
-      required: true,
     },
     businessPhoneNumber: {
       type: String,
@@ -54,7 +58,7 @@ const businessCustomerSchema:Schema =  new Schema (
       required: true,
     },
     photos: {
-      type: [String],
+      type: [ImageSchema],
     },
     description: {
       type: String,
