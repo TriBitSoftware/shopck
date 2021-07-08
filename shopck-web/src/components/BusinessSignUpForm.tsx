@@ -9,6 +9,7 @@ import { DropzoneArea } from 'material-ui-dropzone';
 import { ContactInfo } from './form_sections/ContactInfo';
 import { FormHeader } from './form_sections/FormHeader';
 import { InputField } from './InputField';
+import axios from 'axios';
 
 interface BusinessSignUpFormProps {
 
@@ -118,24 +119,24 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
         validationSchema: FormValidationSchema,
         onSubmit: (values) => {
 
-            // uploadImages().then(res => {
+            uploadImages().then(res => {
 
-            //     let formData: FormInfo = { ...values, photos: res }
+                let formData: FormInfo = { ...values, photos: res }
 
-            //     axios.post(
-            //         "/submitForm",
-            //         JSON.stringify(formData),
-            //         axiosConfig
-            //     ).then(res => {
-            //         return axios.post(
-            //             "/registrationEmail",
-            //             JSON.stringify(formData),
-            //             axiosConfig
-            //         )
-            //     }).then(res => {
+                axios.post(
+                    "/submitForm",
+                    JSON.stringify(formData),
+                    axiosConfig
+                ).then(res => {
+                    return axios.post(
+                        "/registrationEmail",
+                        JSON.stringify(formData),
+                        axiosConfig
+                    )
+                }).then(res => {
 
-            //     })
-            // })
+                })
+            })
         },
     });
 
