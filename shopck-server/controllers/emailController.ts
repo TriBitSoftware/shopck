@@ -13,19 +13,21 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
         })
 
         let nodemailer = require('nodemailer')
+
         const transporter = nodemailer.createTransport({
             service: "Gmail",
             port: 465,
             host: "smtp.gmail.com",
             auth: {
-            user: 'shopckregister@gmail.com',
-            pass: "$CK29648",
+                user: process.env.EMAIL_SENDER,
+                pass: process.env.EMAIL_PASSWORD,
             },
             secure: true,
         })
+
         const mailData = {
-            from: 'shopckregister@gmail.com',
-            to: 'fareed878@hotmail.com',
+            from: process.env.EMAIL_SENDER,
+            to: process.env.EMAIL_RECIPIENT,
             subject: `Business Registration From ${body.firstName + " " + body.lastName}`,
             attachments:attachments,
             text: `${body.firstName +" "+ body.lastName}registered their business on ShopCK!\n
@@ -81,9 +83,10 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
                     .json("Email sent!").end()
             }
         })
-        
+
     } catch (error) {
         res.status(500).json("Email failed to send.").end()
     }
 }
+
 export {registrationEmail}

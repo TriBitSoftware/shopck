@@ -1,7 +1,0 @@
-{
-    "env": {
-        "MONGO_URI": "mongodb+srv://tribit_proxy_user:uM3JLpGJr58GeVf@cluster0.j6oly.mongodb.net/test",
-        "MONGO_DB": "Shop_Ck",
-        "PASSWORD":"$CK29648"
-    }
-}

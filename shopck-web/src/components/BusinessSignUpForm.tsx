@@ -146,7 +146,8 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
 
     const uploadImages = async () => {
         const urls = photos.map(async photo => {
-            let currentImageName = photo.name.split('.').slice(0, -1).join('.') + "-" + Date.now();
+            let fileType = photo.name.split('.').pop()
+            let currentImageName = photo.name.split('.').slice(0, -1).join('.') + "-" + Date.now() + "\." + fileType;
             const uploadImage = await storage.ref(`images/business-images/${currentImageName}`).put(photo);
 
             const url = await uploadImage.ref.getDownloadURL();
