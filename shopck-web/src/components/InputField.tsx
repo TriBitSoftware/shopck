@@ -60,7 +60,6 @@ export const InputField: React.FC<InputFieldProps> = ({ label, name, value, type
                 onChange={onChange}
                 error={error}
                 helperText={helperText}
-                required
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end" >

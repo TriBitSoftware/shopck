@@ -4,12 +4,13 @@ import * as Yup from 'yup';
 import { useFormik, getIn } from 'formik';
 import { FormInfo, initialFormInfo, businessInfoInputFields, CustomTextInputField, businessCategories, Image } from '../type';
 import { storage } from '../firebase-config';
-import { Container, Divider, Checkbox, TextField, Box, Typography, FormControl, FormLabel, Grid, FormControlLabel, FormHelperText, Button } from '@material-ui/core';
+import { Container, Divider, Checkbox, TextField, Box, Typography, FormControl, FormLabel, Grid, FormControlLabel, FormHelperText, Button, Snackbar } from '@material-ui/core';
 import { DropzoneArea } from 'material-ui-dropzone';
 import { ContactInfo } from './form_sections/ContactInfo';
 import { FormHeader } from './form_sections/FormHeader';
 import { InputField } from './InputField';
 import axios from 'axios';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 
 interface BusinessSignUpFormProps {
 
@@ -81,9 +82,14 @@ const useStyles = makeStyles({
     }
 });
 
+function Alert(props: AlertProps) {
+    return <MuiAlert elevation={2} variant="filled" {...props} />;
+}
+
 export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const classes = useStyles();
     const [photos, setPhotos] = useState<File[]>([]);
+    const [submitted, setSubmitted] = useState<boolean>(false);
 
     const FormValidationSchema = Yup.object().shape({
         firstName: Yup.string()
@@ -117,6 +123,11 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     const formik = useFormik<FormInfo>({
         initialValues: { ...initialFormInfo },
         validationSchema: FormValidationSchema,
+        validateOnChange: false,
+        validateOnBlur: false,
+        onReset: (values) => {
+            formik.setValues({ ...initialFormInfo })
+        },
         onSubmit: (values) => {
 
             uploadImages().then(res => {
@@ -134,7 +145,8 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                         axiosConfig
                     )
                 }).then(res => {
-
+                    setSubmitted(true);
+                    formik.resetForm();
                 })
             })
         },
@@ -145,6 +157,9 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
     }
 
     const uploadImages = async () => {
+        if (photos.length == 0) {
+            return []
+        }
         const urls = photos.map(async photo => {
             let fileType = photo.name.split('.').pop()
             let currentImageName = photo.name.split('.').slice(0, -1).join('.') + "-" + Date.now() + "\." + fileType;
@@ -220,7 +235,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                                 <Grid item xs={6} key={category} >
                                     <FormControlLabel
                                         disabled={formik.values.categories.length == 2 && !formik.values.categories.includes(category)}
-                                        control={<Checkbox name="categories" value={category} onChange={props => {
+                                        control={<Checkbox name="categories" checked={formik.values.categories.includes(category)} value={category} onChange={props => {
                                             formik.handleChange(props);
                                         }} />}
                                         label={category}
@@ -259,6 +274,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                         dropzoneText={"Drag and drop an image here or click"}
                         filesLimit={4}
                         maxFileSize={30000000}
+                        alertSnackbarProps={{ anchorOrigin: { vertical: 'top', horizontal: 'right' } }}
                     />
 
                     <Typography className={classes.formLabelLeft}>
@@ -277,9 +293,22 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                         rows={4}
                     />
 
-                    <Button className={classes.button} type="submit">
+                    <Button className={classes.button} type="submit" onClick={() => { formik.resetForm() }}>
                         Submit
                     </Button>
+                    {!formik.isValid &&
+                        <Alert style={{ maxWidth: "50%", alignSelf: "center" }} severity="error">
+                            Please fix form errors!
+                        </Alert>
+                    }
+
+                    <Snackbar anchorOrigin={{ vertical: "top", horizontal: "right" }} style={{ maxWidth: "50%", alignSelf: "start" }} open={formik.isValid
+                        && submitted} autoHideDuration={6000} onClose={() => setSubmitted(false)}>
+                        <Alert onClose={() => setSubmitted(false)} severity="success">
+                            Thank you for registering your business with ShopCK!
+                        </Alert>
+                    </Snackbar>
+
                 </Box>
             </form>
         </Container>

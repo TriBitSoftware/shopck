@@ -46,8 +46,7 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
             Instagram: ${body.instagram}\n
             Business Categories: ${body.categories}\n
             Business Description: ${body.description}\n
-            Photos: ${body.photos}\n
-            Comments/Suggestion:`,
+            Comments/Suggestion: ${body.feedback}`,
             html:
             `<div>
             <p><strong>${body.firstName +" "+ body.lastName}</strong> registered their business on ShopCK! </p>
@@ -64,20 +63,19 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
             <p>Facebook: ${body.facebook}</p>
             <p>Twitter: ${body.twitter}</p>
             <p>Instagram: ${body.instagram}</p>
+            <p>Youtube: ${body.youtube}</p>
+            <p>LinkedIn: ${body.linkedin}</p>
+            <p>Instagram: ${body.instagram}</p>
             <p>Business Categories: ${body.categories}</p>
             <p>Business Description: ${body.description}</p>
-            <p>Photos: ${body.photos}</p>
             <p>Comments/Suggestion:${body.feedback}</p>
             </div>`
         }
 
         transporter.sendMail(mailData, function (err: any, info: any) {
             if (err) {
-                console.log(err)
-                //   responseContents = { message: err, statusCode: 500 }
                 throw new Error(err)
             } else {
-                console.log(info)
                 res
                     .status(200)
                     .json("Email sent!").end()

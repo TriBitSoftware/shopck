@@ -46,7 +46,11 @@ const useStyles = makeStyles({
     paddingRight: "25px",
     paddingLeft: "25px",
     marginTop: 32,
-    alignSelf: "flex-end"
+    alignSelf: "flex-end",
+    '&:hover': {
+      backgroundColor: '#2b2b2b',
+      color: '#FFF',
+    },
   },
   instaHandle: {
     verticalAlign: 'middle',
@@ -86,12 +90,11 @@ export default function App() {
           </Button>
         </Box>
         <img className={classes.homeImage} src={"/images/ShopCKHomeDark.png"} alt={"background"}></img>
-        {/* <Typography className={classes.instaHandle} variant="body1"> */}
+
         <Link className={classes.instaHandle} target="_blank" href="https://www.instagram.com/k_wicksy/" color="inherit">
           <PhotoCamera></PhotoCamera>
           @k_wicksy
         </Link>
-        {/* </Typography> */}
       </div>
 
       <h1 ref={formRef}></h1>

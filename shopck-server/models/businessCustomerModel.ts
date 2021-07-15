@@ -17,7 +17,7 @@ const businessCustomerSchema:Schema =  new Schema (
     lastName: {
       type: String,
       required: true,
-        },
+    },
     email: {
       type: String,
       required: true,
@@ -34,6 +34,7 @@ const businessCustomerSchema:Schema =  new Schema (
     },
     businessPhoneNumber: {
       type: String,
+      required: true,
     },
     businessAddress: {
       type: String,
@@ -50,6 +51,13 @@ const businessCustomerSchema:Schema =  new Schema (
     instagram: {
       type: String,
     },
+    youtube: {
+      type: String,
+      
+    },
+    linkedin: {
+      type: String,
+    },
     websiteUrl: {
       type: String,
     },
@@ -62,7 +70,7 @@ const businessCustomerSchema:Schema =  new Schema (
     },
     description: {
       type: String,
-      //required: true,
+      required: true,
     },
     feedback: {
       type: String,

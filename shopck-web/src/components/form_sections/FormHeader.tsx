@@ -2,8 +2,8 @@ import { Divider, makeStyles, Typography } from '@material-ui/core';
 import React from 'react'
 
 interface FormHeaderProps {
-
 }
+
 const useStyles = makeStyles({
     formTitle: {
         fontWeight: "bold",
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
         marginTop: 8,
     },
 });
+
 export const FormHeader: React.FC<FormHeaderProps> = ({ }) => {
     const classes = useStyles();
 
@@ -27,6 +28,7 @@ export const FormHeader: React.FC<FormHeaderProps> = ({ }) => {
         <div id="formHeader">
             <Typography className={classes.formTitle}>Get listed on ShopCK</Typography>
             <Typography className={classes.subheading}>For businesses located in the Municipality of Chatham-Kent</Typography>
+            <Typography className={classes.subheading}>If you require any assistance filling out this form, please contact Taylor at 519-987-3278 or email info@shopck.ca. Thank you!</Typography>
             <Divider orientation="horizontal" variant="fullWidth" className={classes.titleSectionDivider} />
         </div>
     );

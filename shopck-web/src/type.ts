@@ -16,6 +16,8 @@ export type FormInfo = {
     facebook: string
     twitter: string
     instagram: string
+    youtube: string
+    linkedin: string
     websiteUrl: string
     categories: string[]
     photos:Image[],
@@ -35,6 +37,8 @@ export const initialFormInfo: FormInfo = {
     facebook: "",
     twitter: "",
     instagram: "",
+     youtube: "",
+    linkedin: "",
     websiteUrl: "",
     categories: [],
     photos:[],
@@ -57,6 +61,8 @@ export const businessInfoInputFields: CustomTextInputField[] = [
     { label: "Facebook", name: "facebook",value:"" },
     { label: "Twitter", name: "twitter",value:"" },
     { label: "Instagram", name: "instagram",value:"" },
+    { label: "Youtube", name: "youtube",value:"" },
+    { label: "LinkedIn", name: "linkedin",value:"" },
         
 ]
 

@@ -12,6 +12,8 @@ export interface IBusinessCustomer extends Document {
     facebook: string
     twitter: string
     instagram: string
+    youtube: string
+    linkedin: string
     websiteUrl: string
     categories: string[]
     photos:ImageUpload[],

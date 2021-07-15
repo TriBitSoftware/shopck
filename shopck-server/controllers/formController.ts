@@ -31,7 +31,7 @@ const submitForm = async (req: Request, res: Response): Promise<void> => {
             .status(201)
             .json({ message: "Form submited", businessCustomer: submittedBusinessCustomer })
     } catch (error) {
-       
+       console.log(error)
          res
             .status(500)
             .json({errorMessage: error})
