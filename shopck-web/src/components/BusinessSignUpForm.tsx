@@ -293,7 +293,7 @@ export const BusinessSignUpForm: React.FC<BusinessSignUpFormProps> = ({ }) => {
                         rows={4}
                     />
 
-                    <Button className={classes.button} type="submit" onClick={() => { formik.resetForm() }}>
+                    <Button className={classes.button} type="submit">
                         Submit
                     </Button>
                     {!formik.isValid &&
