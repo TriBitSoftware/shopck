@@ -21,12 +21,11 @@ app.get("*", (req, res) => {
     res.sendFile(path.join(__dirname, "shopck-web", "build", "index.html"));
 });
 
-const uri: string = `${process.env.MONGO_URI}`
 const options = { useNewUrlParser: true, useUnifiedTopology: true }
 mongoose.set("useFindAndModify", false)
 
 mongoose
-  .connect(process.env.MONGODB_URI, options)
+  .connect("mongodb+srv://tribit_proxy_user:uM3JLpGJr58GeVf@cluster0.j6oly.mongodb.net/Shop_Ck?", options)
   .then(() =>
     app.listen(PORT, () =>
       console.log(`Server running on http://localhost:${PORT}`)

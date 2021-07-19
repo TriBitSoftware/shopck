@@ -2,6 +2,7 @@
   "name": "shopck-server",
   "version": "1.0.0",
   "main": "index.js",
+  "homepage": "www.shopck.ca",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -29,6 +30,7 @@
     "client": "cd shopck-web && yarn start",
     "start": "ts-node app.ts",
     "dev": "concurrently --kill-others-on-fail \"yarn start\" \"yarn client\"",
+    "build": "cd shopck-web && yarn install --only=dev && yarn install && yarn run build",
     "heroku-postbuild": "cd shopck-web && yarn install --only=dev && yarn install && yarn run build"
   },
   "engines": {

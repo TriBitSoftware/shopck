@@ -19,15 +19,15 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
             port: 465,
             host: "smtp.gmail.com",
             auth: {
-                user: process.env.EMAIL_SENDER,
-                pass: process.env.EMAIL_PASSWORD,
+                user: "shopckregister@gmail.com",
+                pass: "$CK29648",
             },
             secure: true,
         })
 
         const mailData = {
-            from: process.env.EMAIL_SENDER,
-            to: process.env.EMAIL_RECIPIENT,
+            from: "shopckregister@gmail.com",
+            to: "fareed878@hotmail.com",
             subject: `Business Registration From ${body.firstName + " " + body.lastName}`,
             attachments:attachments,
             text: `${body.firstName +" "+ body.lastName}registered their business on ShopCK!\n
@@ -74,6 +74,7 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
 
         transporter.sendMail(mailData, function (err: any, info: any) {
             if (err) {
+                  console.log(err)
                 throw new Error(err)
             } else {
                 res
@@ -83,6 +84,7 @@ const registrationEmail = async (req: Request, res: Response): Promise<void> => 
         })
 
     } catch (error) {
+        console.log(error)
         res.status(500).json("Email failed to send.").end()
     }
 }
