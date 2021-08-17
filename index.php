@@ -1,6 +1,6 @@
 <?php
 
-$manager = new MongoDB\Driver\Manager("mongodb+srv://tribit_proxy_user:uM3JLpGJr58GeVf@cluster0.j6oly.mongodb.net/test?authSource=admin&replicaSet=atlas-115czw-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
+// $manager = new MongoDB\Driver\Manager("mongodb+srv://tribit_proxy_user:uM3JLpGJr58GeVf@cluster0.j6oly.mongodb.net/test?authSource=admin&replicaSet=atlas-115czw-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true");
 
 ?>
 <!DOCTYPE html>
@@ -20,12 +20,12 @@ $manager = new MongoDB\Driver\Manager("mongodb+srv://tribit_proxy_user:uM3JLpGJr
 if (isset($_POST['submission_id'])) {
 
 
-    $bulk = new MongoDB\Driver\BulkWrite;
+    // $bulk = new MongoDB\Driver\BulkWrite;
 
-    $document = ['contactName' => $_POST['contactname'], 'contactEmail' => $_POST['contactemail'], 'contactPhone' => $_POST['contactphone'], 'businessName' => $_POST['businessname'], 'businessPhone' => $_POST['businessphone'], 'businessPhysicalAddress' => $_POST['businessphysical'], 'businessEmail' => $_POST['businessemail'], 'businessWebsite' => $_POST['businesswebsite'], 'facebook' => $_POST['facebook'], 'twitter' => $_POST['twitter'], 'instagram' => $_POST['instagram'], 'youtube' => $_POST['youtube'], 'linkedin' => $_POST['linkedin'], 'businessCategory' => $_POST['businesscategory'], 'businessDescription' => $_POST['businessdescription'], 'additionalComment' => $_POST['anyadditionalcomment'], 'businessImages' => $_POST['uploadany']];
+    // $document = ['contactName' => $_POST['contactname'], 'contactEmail' => $_POST['contactemail'], 'contactPhone' => $_POST['contactphone'], 'businessName' => $_POST['businessname'], 'businessPhone' => $_POST['businessphone'], 'businessPhysicalAddress' => $_POST['businessphysical'], 'businessEmail' => $_POST['businessemail'], 'businessWebsite' => $_POST['businesswebsite'], 'facebook' => $_POST['facebook'], 'twitter' => $_POST['twitter'], 'instagram' => $_POST['instagram'], 'youtube' => $_POST['youtube'], 'linkedin' => $_POST['linkedin'], 'businessCategory' => $_POST['businesscategory'], 'businessDescription' => $_POST['businessdescription'], 'additionalComment' => $_POST['anyadditionalcomment'], 'businessImages' => $_POST['uploadany']];
 
-    $bulk->insert($document);
-    $result = $manager->executeBulkWrite('test.user', $bulk);
+    // $bulk->insert($document);
+    // $result = $manager->executeBulkWrite('test.user', $bulk);
 
     echo "<h1>DATA INSERTED SUCCESSFULLY</h1>";
 }
